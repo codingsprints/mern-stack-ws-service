@@ -54,7 +54,7 @@ export class KafkaBroker implements MessageBroker {
         message,
       }: EachMessagePayload) => {
         // Logic to handle incoming messages.
-        console.log({
+        console.log("-------------- value", {
           value: message.value.toString(),
           topic,
           partition,
@@ -65,7 +65,10 @@ export class KafkaBroker implements MessageBroker {
             {
               // todo: maybe check event_type ?
               const order = JSON.parse(message.value.toString());
-              ws.io.to(order.data.tenantId).emit("order-update", order);
+              console.log("order parse ->", order);
+              ws.io
+                .to(order?.data?.newOrder?.tenantId)
+                .emit("order-update", order);
             }
             break;
           default:

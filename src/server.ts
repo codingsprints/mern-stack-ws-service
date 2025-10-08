@@ -4,6 +4,7 @@ import { createMessageBroker } from "./factories/broker-factory";
 import { MessageBroker } from "./common/types/broker";
 import ws from "./socket";
 import { TOPIC_NAME } from "./common/constant";
+import { configENV } from "./config/config";
 
 const startServer = async () => {
   let broker: MessageBroker | null = null;
@@ -12,7 +13,7 @@ const startServer = async () => {
     await broker.connectConsumer();
     await broker.consumeMessage([TOPIC_NAME.order], false);
 
-    const PORT = config.get("server.port");
+    const PORT = configENV.port;
     ws.wsServer
       .listen(PORT, () => {
         logger.info(`✅ Server running on port: ${PORT}`);
@@ -30,4 +31,4 @@ const startServer = async () => {
   }
 };
 
-void startServer();
+startServer();
