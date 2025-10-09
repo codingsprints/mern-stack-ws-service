@@ -2,6 +2,8 @@ import config from "config";
 import { Consumer, EachMessagePayload, Kafka, KafkaConfig } from "kafkajs";
 import { MessageBroker } from "../common/types/broker";
 import ws from "../socket";
+import { configENV } from "./config";
+import { NODE_ENV_VAL } from "../common/constant";
 
 export class KafkaBroker implements MessageBroker {
   private consumer: Consumer;
@@ -12,18 +14,18 @@ export class KafkaBroker implements MessageBroker {
       brokers,
     };
 
-    // if (process.env.NODE_ENV === "production") {
-    //   kafkaConfig = {
-    //     ...kafkaConfig,
-    //     ssl: true,
-    //     connectionTimeout: 45000,
-    //     sasl: {
-    //       mechanism: "plain",
-    //       username: config.get("kafka.sasl.username"),
-    //       password: config.get("kafka.sasl.password"),
-    //     },
-    //   };
-    // }
+    if (configENV.nodeEnv === NODE_ENV_VAL.PRODUCTION) {
+      kafkaConfig = {
+        ...kafkaConfig,
+        ssl: configENV.kafkaSSL,
+        connectionTimeout: 45000,
+        sasl: {
+          mechanism: "plain",
+          username: configENV.kafkaUserName,
+          password: configENV.kafkaPassword,
+        },
+      };
+    }
 
     const kafka = new Kafka(kafkaConfig);
 

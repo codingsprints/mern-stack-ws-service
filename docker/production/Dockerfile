@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=21.7.1
+ARG NODE_VERSION=22.18.0
 
 FROM node:${NODE_VERSION}-alpine as builder
 
@@ -38,10 +38,8 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 COPY --from=builder --chown=node:node /home/node/app/dist ./
 
-EXPOSE 5501
+EXPOSE 5001
 
-
-
-CMD ["node", "server.js"]
+CMD ["node", "src/server.js"]
 
 

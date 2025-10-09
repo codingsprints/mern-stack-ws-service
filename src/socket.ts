@@ -1,21 +1,15 @@
 import { createServer } from "node:http";
 import config from "config";
 import { Server } from "socket.io";
+import { configENV } from "./config/config";
 
 const wsServer = createServer();
 
 // todo: move origin value to the config.
-// const ALLOWED_DOMAINS = [
-//   config.get("frontend.clientUI"),
-//   config.get("frontend.adminUI"),
-// ];
+const ALLOWED_DOMAINS = [configENV.adminUI, configENV.clientUI];
 
-// const io = new Server(wsServer, { cors: { origin:  ALLOWED_DOMAINS as string[]} });
 const io = new Server(wsServer, {
-  cors: {
-    origin: ["http://localhost:5173", "http://localhost:3000"],
-    credentials: true,
-  },
+  cors: { origin: ALLOWED_DOMAINS as string[] },
 });
 
 io.on("connection", (socket) => {
