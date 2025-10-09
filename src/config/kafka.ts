@@ -1,4 +1,3 @@
-import config from "config";
 import { Consumer, EachMessagePayload, Kafka, KafkaConfig } from "kafkajs";
 import { MessageBroker } from "../common/types/broker";
 import ws from "../socket";

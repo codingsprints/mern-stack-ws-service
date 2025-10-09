@@ -1,5 +1,4 @@
 import { createServer } from "node:http";
-import config from "config";
 import { Server } from "socket.io";
 import { configENV } from "./config/config";
 

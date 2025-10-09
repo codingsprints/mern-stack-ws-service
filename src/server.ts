@@ -1,5 +1,4 @@
 import logger from "./config/logger";
-import config from "config";
 import { createMessageBroker } from "./factories/broker-factory";
 import { MessageBroker } from "./common/types/broker";
 import ws from "./socket";

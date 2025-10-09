@@ -11,7 +11,7 @@ jobs:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: codingsprints/mern-space-catalog-service-prod
+      IMAGE_NAME: codingsprints/mern-space-ws-service-prod
       IMAGE_TAG: build-${{ github.run_number }}
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'|| github.ref == 'refs/heads/production') && github.event_name == 'push'
     steps:

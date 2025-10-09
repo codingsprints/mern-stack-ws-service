@@ -1,4 +1,3 @@
-import config from "config";
 import { KafkaBroker } from "../config/kafka";
 import { MessageBroker } from "../common/types/broker";
 import logger from "../config/logger";
