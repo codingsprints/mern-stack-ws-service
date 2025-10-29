@@ -56,7 +56,7 @@ export class KafkaBroker implements MessageBroker {
       }: EachMessagePayload) => {
         // Logic to handle incoming messages.
         console.log("-------------- value", {
-          value: message.value.toString(),
+          value: message.value ? message.value.toString() : null,
           topic,
           partition,
         });
@@ -65,7 +65,23 @@ export class KafkaBroker implements MessageBroker {
           case "order":
             {
               // todo: maybe check event_type ?
-              const order = JSON.parse(message.value.toString());
+              const msg = message.value ? message.value.toString() : null;
+              if (!msg) {
+                console.log("Received empty or null message for topic 'order'");
+                break;
+              }
+              let order;
+              try {
+                order = JSON.parse(msg);
+              } catch (err) {
+                console.error(
+                  "Failed to parse order message:",
+                  err,
+                  "msg:",
+                  msg,
+                );
+                break;
+              }
               console.log("order parse ->", order);
               ws.io
                 .to(order?.data?.newOrder?.tenantId)
